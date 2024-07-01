@@ -18,10 +18,13 @@ use App\Http\Controllers\SiswaController;
 
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('loginPost');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:siswa'])->group(function () {
-    Route::get('/siswa/dashboard', [SiswaController::class, 'index'])->name('siswa.dashboard');
+    Route::get('/siswa/dashboard', [SiswaController::class, 'index'])->name('siswa.dashboard'); 
+    Route::get('/siswa/nilai', [SiswaController::class, 'nilai'])->name('siswa.nilai'); 
+    Route::get('/siswa/jadwalPelajaran', [SiswaController::class, 'jadwalPelajaran'])->name('siswa.jadwalPelajaran'); 
+    Route::get('/siswa/jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal'); 
 });
 
 Route::middleware(['auth', 'role:guru'])->group(function () {
@@ -36,13 +39,24 @@ Route::middleware(['auth', 'role:guru'])->group(function () {
     Route::post('/guru/siswaPost', [GuruController::class, 'siswaPost'])->name('guru.siswaPost');
     Route::post('/siswa/{id}/siswaUpdate', [GuruController::class, 'siswaUpdate'])->name('guru.siswaUpdate');
     Route::get('/siswa/{id}/delete', [GuruController::class, 'deleteSiswa'])->name('guru.deleteSiswa');
-    
+
     Route::get('/guru/mapel', [GuruController::class, 'mapel'])->name('guru.mapel');
     Route::post('/guru/mapelPost', [GuruController::class, 'mapelPost'])->name('guru.mapelPost');
     Route::post('/mata_pelajaran/{id}/update', [GuruController::class, 'update'])->name('mata_pelajaran.update');
     Route::get('/guru/deleteMapel/{id}', [GuruController::class, 'deleteMapel'])->name('guru.deleteMapel');
-    
+
     Route::get('/guru/pilihKelas', [GuruController::class, 'pilihKelas'])->name('guru.pilihKelas');
     Route::get('/guru/nilai/{id}', [GuruController::class, 'nilai'])->name('guru.nilai');
-    Route::get('/guru/nilaiPost', [GuruController::class, 'nilaiPost'])->name('guru.nilaiPost');
+    Route::post('/guru/addNilai', [GuruController::class, 'addNilai'])->name('guru.addNilai');
+    Route::post('/guru/updateNilai', [GuruController::class, 'updateNilai'])->name('guru.updateNilai');
+
+
+    Route::get('/guru/pilihAbsensi', [GuruController::class, 'pilihAbsensi'])->name('guru.pilihAbsensi');
+    Route::get('guru/kelas/{id}/absensi', [GuruController::class, 'showAbsensi'])->name('guru.showAbsensi');
+    Route::post('guru/addAbsensi', [GuruController::class, 'addAbsensi'])->name('guru.addAbsensi');
+    Route::post('guru/updateAbsensi', [GuruController::class, 'updateAbsensi'])->name('guru.updateAbsensi');
+    Route::get('guru/deleteAbsensi/{id}', [GuruController::class, 'deleteAbsensi'])->name('guru.deleteAbsensi');
+
+    Route::get('/guru/pilihJadwal', [GuruController::class, 'pilihJadwal'])->name('guru.pilihJadwal');
+    Route::get('/guru/jadwal/{id}', [GuruController::class, 'jadwal'])->name('guru.jadwal');
 });

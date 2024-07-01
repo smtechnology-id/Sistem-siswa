@@ -28,11 +28,7 @@
                 <div class="col-xxl-8 col-lg-10">
                     <div class="card overflow-hidden">
                         <div class="row g-0">
-                            <div class="col-lg-6 d-none d-lg-block p-2">
-                                <img src="{{ asset('assets/images/Kejaksaan Agung.png') }}" alt=""
-                                    class="img-fluid rounded h-100" style="object-fit: cover">
-                            </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="d-flex flex-column h-100">
 
                                     <div class="p-4 my-auto">

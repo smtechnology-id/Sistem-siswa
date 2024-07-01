@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Kelas;
-use App\Models\MataPelajaran;
+use App\Models\Nilai;
 use App\Models\Siswa;
+use App\Models\Absensi;
 use Illuminate\Http\Request;
+use App\Models\MataPelajaran;
 
 class GuruController extends Controller
 {
@@ -184,7 +186,8 @@ class GuruController extends Controller
         return back()->with('success', 'Mata Pelajaran berhasil dihapus');
     }
 
-    public function pilihKelas() {
+    public function pilihKelas()
+    {
         $kelas = Kelas::all();
         return view('guru.pilihKelas', compact('kelas'));
     }
@@ -193,9 +196,135 @@ class GuruController extends Controller
         $kelas = Kelas::findOrFail($id);
         $mataPelajaran = MataPelajaran::where('kelas_id', $id)->get();
         $siswa = Siswa::where('kelas_id', $id)->with('nilai')->get();
-    
+
         return view('guru.nilai', compact('siswa', 'mataPelajaran', 'kelas'));
     }
-    
-    
+    public function addNilai(Request $request)
+    {
+        $request->validate([
+            'siswa_id' => 'required',
+            'matapelajaran_id' => 'required',
+            'nilai' => 'required|numeric',
+            'semester' => 'required',
+            'tahun_ajaran' => 'required',
+        ]);
+
+        Nilai::create([
+            'siswa_id' => $request->siswa_id,
+            'matapelajaran_id' => $request->matapelajaran_id,
+            'nilai' => $request->nilai,
+            'semester' => $request->semester,
+            'tahun_ajaran' => $request->tahun_ajaran,
+        ]);
+
+        return redirect()->back()->with('success', 'Nilai berhasil ditambahkan.');
+    }
+    public function updateNilai(Request $request)
+    {
+        $request->validate([
+            'siswa_id' => 'required|exists:siswa,id',
+            'matapelajaran_id' => 'required|exists:mata_pelajaran,id',
+            'nilai' => 'required|numeric',
+            'semester' => 'required|string',
+            'tahun_ajaran' => 'required|string',
+        ]);
+
+        $nilai = Nilai::where('siswa_id', $request->siswa_id)
+            ->where('matapelajaran_id', $request->matapelajaran_id)
+            ->first();
+
+        if ($nilai) {
+            $nilai->update([
+                'nilai' => $request->nilai,
+                'semester' => $request->semester,
+                'tahun_ajaran' => $request->tahun_ajaran,
+            ]);
+        } else {
+            // Jika tidak ditemukan, buat nilai baru (opsional)
+            Nilai::create([
+                'siswa_id' => $request->siswa_id,
+                'matapelajaran_id' => $request->matapelajaran_id,
+                'nilai' => $request->nilai,
+                'semester' => $request->semester,
+                'tahun_ajaran' => $request->tahun_ajaran,
+            ]);
+        }
+
+        return back()->with('success', 'Nilai berhasil diperbarui');
+    }
+
+
+    public function pilihAbsensi()
+    {
+        $kelas = Kelas::all();
+        return view('guru.pilihAbsensi', compact('kelas'));
+    }
+    public function showAbsensi($id)
+    {
+        $kelas = Kelas::find($id);
+        $siswa = Siswa::where('kelas_id', $id)->with('absensi')->get();
+        return view('guru.absensi', compact('kelas', 'siswa'));
+    }
+    public function addAbsensi(Request $request)
+    {
+        $request->validate([
+            'siswa_id' => 'required|exists:siswa,id',
+            'jumlah_masuk' => 'required|integer',
+            'jumlah_tidak_masuk' => 'required|integer',
+            'jumlah_ijin' => 'required|integer',
+        ]);
+
+        Absensi::create([
+            'siswa_id' => $request->siswa_id,
+            'jumlah_masuk' => $request->jumlah_masuk,
+            'jumlah_tidak_masuk' => $request->jumlah_tidak_masuk,
+            'jumlah_ijin' => $request->jumlah_ijin,
+        ]);
+
+        return back()->with('success', 'Absensi berhasil ditambahkan.');
+    }
+
+    public function updateAbsensi(Request $request)
+    {
+        $request->validate([
+            'siswa_id' => 'required|exists:siswa,id',
+            'jumlah_masuk' => 'required|integer',
+            'jumlah_tidak_masuk' => 'required|integer',
+            'jumlah_ijin' => 'required|integer',
+        ]);
+
+        $absensi = Absensi::where('siswa_id', $request->siswa_id)->first();
+        if ($absensi) {
+            $absensi->update([
+                'jumlah_masuk' => $request->jumlah_masuk,
+                'jumlah_tidak_masuk' => $request->jumlah_tidak_masuk,
+                'jumlah_ijin' => $request->jumlah_ijin,
+            ]);
+        }
+
+        return back()->with('success', 'Absensi berhasil diupdate.');
+    }
+
+    public function deleteAbsensi($id)
+    {
+        $absensi = Absensi::find($id);
+        if ($absensi) {
+            $absensi->delete();
+        }
+
+        return back()->with('success', 'Absensi berhasil dihapus.');
+    }
+    public function pilihJadwal()
+    {
+        $kelas = Kelas::all();
+        return view('guru.pilihJadwal', compact('kelas'));
+    }
+
+    public function jadwal($id) 
+    {
+        $kelas = Kelas::where('id', $id)->first();
+        $mataPelajaran = MataPelajaran::where('kelas_id', $kelas->id)->get(); // Mengambil semua data mata pelajaran
+
+        return view('guru.jadwal', compact('kelas', 'mataPelajaran'));
+    }
 }

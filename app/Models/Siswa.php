@@ -27,4 +27,8 @@ class Siswa extends Model
     {
         return $this->hasMany(Nilai::class, 'siswa_id', 'id');
     }
+    public function absensi()
+    {
+        return $this->hasOne(Absensi::class);
+    }
 }

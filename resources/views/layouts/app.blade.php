@@ -5,7 +5,8 @@
     <meta charset="utf-8" />
     <title>Dashboard Guru || Sistem Siswa</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Sistem Informasi Penanganan Penghentian Penuntutan Berdasarkan Keadilan Restoratif" name="description" />
+    <meta content="Sistem Informasi Penanganan Penghentian Penuntutan Berdasarkan Keadilan Restoratif"
+        name="description" />
     <meta content="Smtechnology.id" name="author" />
 
     <!-- App favicon -->
@@ -36,27 +37,6 @@
                 <div class="d-flex align-items-center gap-1">
 
                     <!-- Topbar Brand Logo -->
-                    <div class="logo-topbar">
-                        <!-- Logo light -->
-                        <a href="" class="logo-light">
-                            <span class="logo-lg">
-                                <img src="{{ asset('assets/images/logo.png') }}" alt="logo">
-                            </span>
-                            <span class="logo-sm">
-                                <img src="{{ asset('assets/images/logo-sm.png') }}" alt="small logo">
-                            </span>
-                        </a>
-
-                        <!-- Logo Dark -->
-                        <a href="" class="logo-dark">
-                            <span class="logo-lg">
-                                <img src="{{ asset('assets/images/logo-dark.png') }}" alt="dark logo">
-                            </span>
-                            <span class="logo-sm">
-                                <img src="{{ asset('assets/images/logo-sm.png') }}" alt="small logo">
-                            </span>
-                        </a>
-                    </div>
 
                     <!-- Sidebar Menu Toggle Button -->
                     <button class="button-toggle-menu">
@@ -113,24 +93,6 @@
         <div class="leftside-menu">
 
             <!-- Brand Logo Light -->
-            <a href="" class="logo logo-light">
-                <span class="logo-lg">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="logo">
-                </span>
-                <span class="logo-sm">
-                    <img src="{{ asset('assets/images/logo-sm.png') }}" alt="small logo">
-                </span>
-            </a>
-
-            <!-- Brand Logo Dark -->
-            <a href="" class="logo logo-dark">
-                <span class="logo-lg">
-                    <img src="{{ asset('assets/images/logo-dark.png') }}" alt="dark logo">
-                </span>
-                <span class="logo-sm">
-                    <img src="{{ asset('assets/images/logo-sm.png') }}" alt="small logo">
-                </span>
-            </a>
 
             <!-- Sidebar -left -->
             <div class="h-100" id="leftside-menu-container" data-simplebar>
@@ -171,25 +133,37 @@
                                 <span> Penilaian </span>
                             </a>
                         </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('guru.pilihAbsensi') }}" class="side-nav-link">
+                                <i class="ri-home-3-line"></i>
+                                <span> Absensi </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('guru.pilihJadwal') }}" class="side-nav-link">
+                                <i class="ri-home-3-line"></i>
+                                <span> Jadwal </span>
+                            </a>
+                        </li>
                     @elseif (Auth::user()->role == 'siswa')
-                    <li class="side-nav-item">
-                        <a href="{{ route('user.dashboard') }}" class="side-nav-link">
-                            <i class="ri-home-3-line"></i>
-                            <span> Dashboard </span>
-                        </a>
-                    </li>
-                    <li class="side-nav-item">
-                        <a href="{{ route('user.addKasus') }}" class="side-nav-link">
-                            <i class="ri-home-3-line"></i>
-                            <span> Tambah Kasus </span>
-                        </a>
-                    </li>
-                    <li class="side-nav-item">
-                        <a href="{{ route('user.kasus') }}" class="side-nav-link">
-                            <i class="ri-home-3-line"></i>
-                            <span> Data Kasus </span>
-                        </a>
-                    </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('siswa.dashboard') }}" class="side-nav-link">
+                                <i class="ri-home-3-line"></i>
+                                <span> Dashboard </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('siswa.nilai') }}" class="side-nav-link">
+                                <i class="ri-home-3-line"></i>
+                                <span> Nilai </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('siswa.jadwal') }}" class="side-nav-link">
+                                <i class="ri-home-3-line"></i>
+                                <span> Jadwal </span>
+                            </a>
+                        </li>
                     @endif
 
 
@@ -276,7 +250,7 @@
     <script>
         CKEDITOR.replace('content_berita');
     </script>
-    
+
     <!-- END wrapper -->
     <!-- Vendor js -->
     <script src="{{ asset('assets/js/vendor.min.js') }}"></script>

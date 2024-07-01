@@ -18,16 +18,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => 'Nama Guru 1',
-                'email' => 'guru1@gmail.com',
-                'email_verified_at' => Carbon::now(),
-                'password' => Hash::make('xEYnws6y'),
-                'role' => 'guru',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'name' => 'Nama Guru 2',
-                'email' => 'guru2@gmail.com',
+                'email' => 'guru@gmail.com',
                 'email_verified_at' => Carbon::now(),
                 'password' => Hash::make('xEYnws6y'),
                 'role' => 'guru',
