@@ -327,4 +327,18 @@ class GuruController extends Controller
 
         return view('guru.jadwal', compact('kelas', 'mataPelajaran'));
     }
+    public function deleteKelas($id)
+    {
+        // Temukan kelas berdasarkan ID
+        $kelas = Kelas::find($id);
+
+        // Jika kelas ditemukan, hapus
+        if ($kelas) {
+            $kelas->delete();
+            return redirect()->back()->with('success', 'Kelas berhasil dihapus.');
+        }
+
+        // Jika kelas tidak ditemukan, kembalikan pesan error
+        return redirect()->back()->with('error', 'Kelas tidak ditemukan.');
+    }
 }
